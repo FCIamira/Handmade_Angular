@@ -31,8 +31,9 @@ export class SellerProductsComponent implements OnInit {
     if (sellerId) {
         this.sellerService.getSellerWithItsProducts(sellerId).subscribe({next:(res)=>
         {
-          this.products=res;
-          console.log(res);
+          
+          this.products=res.data;
+          console.log("product"+res);
         },
         error:(error)=>{
           console.log(error)

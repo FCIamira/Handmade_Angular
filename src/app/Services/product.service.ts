@@ -61,4 +61,8 @@ getProductById(id: number): Observable<Responce<IProduct>> {
 deleteProductById(id:number):Observable<Responce<IProduct>>{
   return this.http.delete<Responce<IProduct>>(`${environment.apiBaseUrl}/Product/${id}`)
 }
+getProductsByPricesRanges(min: number, max: number): Observable<Responce<IProduct[]>> {
+  return this.http.get<Responce<IProduct[]>>(`${environment.apiBaseUrl}/Product/p?min=${min}&max=${max}`);
+}
+
 }

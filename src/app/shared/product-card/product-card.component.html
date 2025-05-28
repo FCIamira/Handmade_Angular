@@ -1,52 +1,46 @@
- <div class="card h-100 border-0 shadow position-relative">
-        <div class="position-relative"  [routerLink]="['/product-details', product.productId]">
-          <!-- //product-details -->
-          <img 
-            [src]="product.image || 'assets/no-image.png'" 
-            class="card-img-top p-3"
-            [attr.alt]="product.name"
-            style="height: 200px; object-fit: contain;"
-            placement="top"
-           
-          />
-
-          <!-- Wishlist Icon -->
-          <button 
-            class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow-sm"
-            placement="left"
-            ngbTooltip="Add to Wishlist">
-            <i class="bi bi-heart fs-5 text-danger"></i>
-          </button>
-        </div>
-
-        <div class="card-body">
-          <h5 class="card-title d-flex justify-content-between align-items-center">
-            <span class="text-truncate" [attr.title]="product.name">{{ product.name }}</span>
-          </h5>
-
-          <!-- Pricing -->
-          <div *ngIf="product.salePercentage > 0; else noSale" class="d-flex justify-content-between">
-            <p class="fw-bold price mb-0">{{ product.priceAfterSale | currency }}</p>
-            <small class="text-muted text-decoration-line-through ">{{ product.price | currency }}</small>
-          </div>
-          <ng-template #noSale>
-            <p class="fw-bold price mb-0">{{ product.price | currency }}</p>
-          </ng-template>
-
-          <!-- Add to Cart -->
-          <div class="mt-3 d-grid">
-            <button 
-              class="btn btn-addToCart btn-sm"
-              (click)="addToCart(product.productId,product.stock)"
-              ngbTooltip="Add to cart">
-              <i class="bi bi-cart-plus me-1"></i> Add to Cart
-            </button>
-          </div>
-
-          <!-- Modal Trigger -->
-          <!-- <div class="mt-2 text-center">
-            <a href="#" class="small text-decoration-underline" (click)="openDetailsModal(product)">View Details</a>
-          </div> -->
-        </div>
+<div class="col">
+  <div class="card h-100 border-0 shadow-sm position-relative">
+    <div class="position-relative" >
+      <img
+        [src]="product.image"
+        class="card-img-top p-3 object-fit-contain"
+        [alt]="product.image ?'../public/bag.jfif':product.image "
+        style="height: 200px;"
+        [routerLink]="['/product-details', product.productId]"
+      />
+      <button
+        class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow-sm"
+        ngbTooltip="Add to Wishlist">
+        <i class="far fa-heart text-danger fs-5" (click)="addToWishlist(product.productId)"></i>
+      </button>
+    </div>
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title text-truncate mb-2" [title]="product.name">
+        <i class="fas fa-tag me-2" style="color: RGB(137, 150, 129);"></i>
+        {{ product.name }}
+      </h5>
+      <div class="mb-2 rate">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <i class="far fa-star"></i>
+        <span class="ms-1">(24)</span>
       </div>
-
+      <p class="card-text mb-3 flex-grow-1 rate">
+        <i class="fas fa-info-circle me-2"></i>
+        {{ product.description }}
+      </p>
+      <div class="d-flex justify-content-between align-items-center mt-auto">
+        <span class="fw-bold fs-5 price">
+          <i class="fas fa-coins me-2"></i>
+          {{ product.priceAfterSale | currency:'EGP' }}
+        </span>
+        <button class="btn btn-addToCart btn-sm"
+                (click)="addToCart(product.productId, product.stock)">
+          <i class="fas fa-shopping-cart me-1"></i> Add
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
