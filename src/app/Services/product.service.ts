@@ -65,4 +65,8 @@ getProductsByPricesRanges(min: number, max: number): Observable<Responce<IProduc
   return this.http.get<Responce<IProduct[]>>(`${environment.apiBaseUrl}/Product/p?min=${min}&max=${max}`);
 }
 
+EditProduct(id: number, updatedProduct: FormData): Observable<any> {
+  return this.http.put(`${environment.apiBaseUrl}/Product/${id}`, updatedProduct);
+}
+
 }

@@ -15,7 +15,7 @@ export class ProductComponent implements OnInit{
   products:IProduct[]=[];
   saledProductList:IProduct[]=[];
   pageNumber:number=1;
-  pageSize:number=4;
+  pageSize:number=8;
   totalPages:number=0;
   filtered:IProduct[]=this.products;
   constructor(private productService:ProductService){
@@ -56,4 +56,5 @@ search(e:any){
       p.name.toLowerCase().includes(searched)
     );
 }
+
 }

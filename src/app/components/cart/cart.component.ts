@@ -124,6 +124,7 @@ export class CartComponent implements OnInit {
   }
 
   removeItem(cartItemId: number) {
+      console.log('Removing cart item:', cartItemId);
     this._CartService.deleteCartItem(cartItemId).subscribe(() => {
       this.refreshCart();
     });

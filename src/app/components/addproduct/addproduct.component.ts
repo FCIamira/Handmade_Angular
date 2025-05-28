@@ -73,7 +73,7 @@ export class AddproductComponent implements OnInit {
       const values = this.productForm.value;
 
       if (values.hasSale && (!values.salePercentage || values.salePercentage <= 0)) {
-        alert('يجب تحديد نسبة الخصم إذا تم تفعيل الخصم.');
+        alert('Please enter valid sale');
         return;
       }
 
@@ -97,24 +97,23 @@ export class AddproductComponent implements OnInit {
           
         },
         error: error => {
-          console.error('❌ Failed to add product:', error);
+          console.error(' Failed to add product:', error);
           if (error.error && error.error.errors) {
             console.error('Validation Errors:', error.error.errors);
           }
         }
       });
     } else {
-      console.warn('❌ Form is invalid');
+      console.warn('Form is invalid');
 
-      // طباعة تفاصيل الأخطاء لتسهيل التصحيح
       Object.keys(this.productForm.controls).forEach(key => {
         const control = this.productForm.get(key);
         if (control && control.invalid) {
-          console.warn(`❌ Field '${key}' is invalid. Errors:`, control.errors);
+          console.warn(` Field '${key}' is invalid. Errors:`, control.errors);
         }
       });
 
-      alert("⚠️ تأكد من ملء كل الحقول بشكل صحيح.");
+      alert("Make sure all fields are filled out correctly.");
     }
   }
 }

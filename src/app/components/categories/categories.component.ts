@@ -130,11 +130,12 @@ import { CartService } from '../../core/services/cart.service';
 import { ResponceGetAll } from '../../models/ResponceGetAll.model';
 import { ICategory } from '../../models/category.model';
 import { IProduct } from '../../models/product.model';
+import { ProductCardComponent } from '../../shared/product-card/product-card.component';
 
 @Component({
   selector: 'app-category',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ProductCardComponent],
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css']
 })
@@ -146,7 +147,7 @@ export class CategoriesComponent implements OnInit {
     message: ''
   };
 
-  selectedCategoryProducts: IProduct[] = []; // ✅ Correct type
+  selectedCategoryProducts: IProduct[] = [];
   selectedCategoryId: number = 0;
 
   constructor(private http: HttpClient) { }
@@ -191,16 +192,28 @@ export class CategoriesComponent implements OnInit {
       }
     });
 }
-  AddToCart(productId: number, quantity: number) {
-  if (quantity > 0) {
-    this._CartService.addProductToCart(productId, quantity).subscribe({
-      next: (res) => console.log('Added to cart:', res),
-      error: (err) => console.error('Failed to add to cart:', err)
-    });
-  } else {
-    alert("Product is out of stock.");
-  }
-}
+//   AddToCart(productId: number, quantity: number) {
+//     console.log("productid",productId);
+//   if (quantity > 0) {
+//     this._CartService.addProductToCart(productId, quantity).subscribe({
+//       next: (res) => console.log('Added to cart:', res),
+//       error: (err) => console.error('Failed to add to cart:', err)
+//     });
+//   } else {
+//     alert("Product is out of stock.");
+//   }
+// }
+
+ AddToCart(id:number,quantity: number) {
+    this._CartService.addProductToCart(id,quantity).subscribe({
+      next:(res)=>{
+        console.log(res)
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+    }
 
   }
 

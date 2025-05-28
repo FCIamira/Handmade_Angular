@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ISeller } from '../../core/interfaces/iseller';
 import { GetsellersService } from '../../core/services/getsellers.service';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
   selector: 'app-sellers',
@@ -10,7 +11,6 @@ import { RouterLink } from '@angular/router';
   styleUrl: './sellers.component.css'
 })
 export class SellersComponent implements OnInit {
-  
 
 private readonly _SellerService = inject(GetsellersService)
 
@@ -37,5 +37,6 @@ showSellerProducts(sellerid:string)
       console.log(this.selectedSellerProducts);
     })
 }
+
 }
 

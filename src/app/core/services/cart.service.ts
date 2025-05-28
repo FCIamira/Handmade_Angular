@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Observable, BehaviorSubject, throwError, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { ICart } from '../interfaces/icart';
+import { Responce } from '../../models/Responce.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class CartService {
   private cartTotalPrice = new BehaviorSubject<number>(0);
   cartTotalPrice$ = this.cartTotalPrice.asObservable();
 
-  constructor(private _HttpClient: HttpClient) {}
+  constructor(private _HttpClient: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -30,28 +31,28 @@ export class CartService {
   }
 
   getCart(): Observable<ResponceGetAll<ICart>> {
-  return this._HttpClient.get<ResponceGetAll<ICart>>(
-    `${environment.apiBaseUrl}/Cart`,
-    { headers: this.getAuthHeaders() }
-  ).pipe(
-    tap(cart => {
-      this.cartItems.next(cart.data); 
-      this.updateCartSummary(cart); 
-    }),
-    catchError(error => {
-      console.error('Error fetching cart:', error);
-      const fallback: ResponceGetAll<ICart> = {
-        isSuccess: false,
-        data: [],
-        errorcode: 500,
-        message: 'Failed to fetch cart'
-      };
-      this.cartItems.next([]);
-      this.updateCartSummary(fallback);
-      return of(fallback);
-    })
-  );
-}
+    return this._HttpClient.get<ResponceGetAll<ICart>>(
+      `${environment.apiBaseUrl}/Cart`,
+      { headers: this.getAuthHeaders() }
+    ).pipe(
+      tap(cart => {
+        this.cartItems.next(cart.data);
+        this.updateCartSummary(cart);
+      }),
+      catchError(error => {
+        console.error('Error fetching cart:', error);
+        const fallback: ResponceGetAll<ICart> = {
+          isSuccess: false,
+          data: [],
+          errorcode: 500,
+          message: 'Failed to fetch cart'
+        };
+        this.cartItems.next([]);
+        this.updateCartSummary(fallback);
+        return of(fallback);
+      })
+    );
+  }
 
 
   private updateCartSummary(cart: ResponceGetAll<ICart>) {
@@ -62,7 +63,7 @@ export class CartService {
   }
 
   loadCartCount() {
-    this.getCart().subscribe(); 
+    this.getCart().subscribe();
   }
 
   updateProductQuantity(cartItemId: number, newQuantity: number): Observable<any> {
@@ -72,42 +73,41 @@ export class CartService {
       { headers: this.getAuthHeaders(), responseType: 'text' as const }
     ).pipe(
       //tap(() => this.getCart().subscribe())
-                switchMap(() => this.getCart())
+      switchMap(() => this.getCart())
 
     );
   }
 
 
   addProductToCart(productId: number, quantity: number): Observable<any> {
-  return this.getCart().pipe(
-    map(cart => cart.data.find(item => item.productId === productId)),
-    switchMap(existingProduct => {
-      if (existingProduct) {
-        const updatedQuantity = existingProduct.quantity + 1; 
-        return this.updateProductQuantity(existingProduct.id, updatedQuantity);
-      } else {
-        return this._HttpClient.post(
-          `${environment.apiBaseUrl}/Cart`,
-          { productId, quantity: 1 }, 
-          { headers: this.getAuthHeaders(), responseType: 'text' as const }
-        ).pipe(
-          switchMap(() => this.getCart())
-        );
-      }
-    })
-  );
-}
+    return this.getCart().pipe(
+      map(cart => cart.data.find(item => item.productId === productId)),
+      switchMap(existingProduct => {
+        if (existingProduct) {
+          const updatedQuantity = existingProduct.quantity + 1;
+          return this.updateProductQuantity(existingProduct.id, updatedQuantity);
+        } else {
+          return this._HttpClient.post(
+            `${environment.apiBaseUrl}/Cart`,
+            { productId, quantity: 1 },
+            { headers: this.getAuthHeaders(), responseType: 'text' as const }
+          ).pipe(
+            switchMap(() => this.getCart())
+          );
+        }
+      })
+    );
+  }
 
 
-  deleteCartItem(id: number): Observable<any> {
-    return this._HttpClient.delete(
+  deleteCartItem(id: number): Observable<Responce<ICart>> {
+    return this._HttpClient.delete<Responce<ICart>>(
       `${environment.apiBaseUrl}/Cart/${id}`,
       { headers: this.getAuthHeaders() }
     ).pipe(
-     // tap(() => this.getCart().subscribe())
-     
-          switchMap(() => this.getCart())
-      
+      tap(() => this.getCart().subscribe()) // refresh cart separately
     );
   }
+
+
 }

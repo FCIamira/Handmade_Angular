@@ -27,7 +27,7 @@ export class ProductCardComponent implements OnInit{
   @Input() product!: IProduct;
   @Output() addToCartClicked = new EventEmitter<IProduct>();
 
-  addToCart(id:number,quantity: number) {
+  AddToCart(id:number,quantity: number) {
     this._CartService.addProductToCart(id,quantity).subscribe({
       next:(res)=>{
         console.log(res)
