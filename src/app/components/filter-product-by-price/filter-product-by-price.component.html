@@ -1,0 +1,63 @@
+<div class="price-filter-container container">
+  <h2>Filter Products by Price</h2>
+
+ <div class="range-inputs">
+<div>    <label>
+      Min Price: {{ minValue }}
+      <input
+        type="range"
+        [min]="minLimit"
+        [max]="maxLimit"
+        [(ngModel)]="minValue"
+        step="20"
+      />
+    </label>
+
+    <label>
+      Max Price: {{ maxValue }}
+      <input
+        type="range"
+        [min]="minLimit"
+        [max]="maxLimit"
+        [(ngModel)]="maxValue"
+        step="20"
+      />
+    </label></div>
+  <div>
+    <button (click)="filterByPrice()">Apply Filter</button>
+  </div>
+
+  </div>
+
+<hr />
+
+<div class="container py-4">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+    <div class="col" *ngFor="let product of filteredProductList">
+      <app-product-card
+        [product]="product"
+        (addToCartClicked)="addToCart($event)">
+      </app-product-card>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4 gap-2">
+    <button 
+      type="button" 
+      class="btn btn-outline-secondary btn-sm prev" 
+      (click)="goToPreviousPage()" 
+      [disabled]="pageNumber === 1">
+      <i class="bi bi-chevron-left"></i> 
+    </button>
+
+    <span class="align-self-center">Page {{ pageNumber }} of {{ totalPages }}</span>
+
+    <button 
+      type="button" 
+      class="btn btn-outline-secondary btn-sm next" 
+      (click)="goToNextPage()" 
+      [disabled]="pageNumber === totalPages">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</div>
