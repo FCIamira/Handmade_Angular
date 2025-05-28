@@ -1,3 +1,4 @@
+import { ReviewsComponent } from './../reviews/reviews.component';
 
 import { ProductComponent } from "../product/product.component";
 import { Component, inject, OnInit } from '@angular/core';
