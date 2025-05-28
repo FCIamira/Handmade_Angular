@@ -90,6 +90,7 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
 import { ICart } from '../../core/interfaces/icart';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -103,6 +104,11 @@ export class CartComponent implements OnInit {
   private readonly _CartService = inject(CartService);
   cartItems: ICart[] = [];
   totalPrice: number = 0;
+
+  constructor(private router: Router)
+  {
+
+  }
 
   ngOnInit(): void {
     this._CartService.getCart().subscribe(res => {
@@ -154,5 +160,25 @@ export class CartComponent implements OnInit {
       }
     });
   }
+  // In your cart.component.ts
+proceedToCheckout() {
+  if (this.cartItems.length === 0) {
+    Swal.fire('Empty Cart', 'Your cart is empty. Please add items before checkout.', 'warning');
+    return;
+  }
+  
+  // Save to localStorage as fallback
+  localStorage.setItem('checkoutData', JSON.stringify({
+    cartItems: this.cartItems,
+    totalPrice: this.totalPrice
+  }));
+  
+  this.router.navigate(['/checkout'], {
+    state: {
+      cartItems: this.cartItems,
+      totalPrice: this.totalPrice
+    }
+  });
+}
 }
 

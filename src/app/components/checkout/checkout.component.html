@@ -8,7 +8,7 @@
       @for (item of cartItems; track item.name) {
         <div class="cart-item">
           <div class="item-details">
-            <span class="item-name">{{ item.name }}</span>
+            <span class="item-name">{{ item.productName }}</span>
             <span class="item-quantity">× {{ item.quantity }}</span>
           </div>
           <span class="item-price">{{ item.price * item.quantity }} EGP</span>
@@ -18,65 +18,107 @@
   </div>
 
   <!-- Customer Information -->
-  <form class="customer-form" #checkoutForm="ngForm">
+  <form #checkoutForm="ngForm" (ngSubmit)="confirmOrder(checkoutForm)">
     <h3>Contact Information</h3>
-    
+
     <div class="form-group">
       <label for="fullName">Full Name</label>
-      <input type="text" id="fullName" name="fullName" ngModel required placeholder="Your full name">
+      <input type="text" id="fullName" name="fullName" required [(ngModel)]="fullName" #fullNameField="ngModel" 
+             placeholder="Enter your full name" />
+      @if (fullNameField.invalid && fullNameField.touched) {
+        <div class="error">Full name is required.</div>
+      }
     </div>
-    
+
     <div class="form-group dual-input">
       <div>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" ngModel required placeholder="example@domain.com">
+        <input type="email" id="email" name="email" required email [(ngModel)]="email" #emailField="ngModel" 
+               placeholder="your.email@example.com" />
+        @if (emailField.invalid && emailField.touched) {
+          <div class="error">Valid email is required.</div>
+        }
       </div>
+
       <div>
         <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone" ngModel required placeholder="01X XXX XXXX">
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          required
+          pattern="^01[0-9]{9}$"
+          [(ngModel)]="phone"
+          #phoneField="ngModel"
+          placeholder="01XXXXXXXXX"
+        />
+        @if (phoneField.invalid && phoneField.touched) {
+          <div class="error">Valid Egyptian phone number is required (starts with 01 and 11 digits).</div>
+        }
       </div>
     </div>
-    
+
     <div class="form-group">
-      <label for="address">Shipping Address</label>
-      <textarea id="address" name="address" ngModel required placeholder="Street, City, Postal Code"></textarea>
+      <label for="address">Address</label>
+      <textarea id="address" name="address" required [(ngModel)]="address" #addressField="ngModel"
+                placeholder="Your complete address including building number, floor, and apartment"></textarea>
+      @if (addressField.invalid && addressField.touched) {
+        <div class="error">Address is required.</div>
+      }
     </div>
 
     <!-- Payment Methods -->
     <h3>Payment Method</h3>
     <div class="payment-options">
-      <label class="payment-card">
-        <input type="radio" name="paymentMethod" value="card" ngModel required>
+      <label class="payment-card" [class.selected]="paymentMethod === 'card'">
+        <input type="radio" name="paymentMethod" value="card" [(ngModel)]="paymentMethod" required #pm="ngModel" 
+               (change)="onPaymentMethodChange('card')" />
         <div class="payment-content">
           <div class="payment-icon">
             <svg viewBox="0 0 24 24">
-              <path fill="currentColor" d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16v6m0-10H4V6h16v2z"/>
+              <path
+                fill="currentColor"
+                d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16v6m0-10H4V6h16v2z"
+              />
             </svg>
           </div>
           <span>Credit/Debit Card</span>
           <div class="card-brands">
             <svg viewBox="0 0 24 24" class="visa">
-              <path fill="currentColor" d="M19,15V9H17.5C16.12,9 15,10.12 15,11.5V13.5C15,14.88 16.12,16 17.5,16H19M20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20M10,9H7V15H10V9M12.5,9H10.5V15H12.5V9M16.5,9H13.5V15H16.5V9Z"/>
+              <path
+                fill="currentColor"
+                d="M19,15V9H17.5C16.12,9 15,10.12 15,11.5V13.5C15,14.88 16.12,16 17.5,16H19M20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20M10,9H7V15H10V9M12.5,9H10.5V15H12.5V9M16.5,9H13.5V15H16.5V9Z"
+              />
             </svg>
             <svg viewBox="0 0 24 24" class="mastercard">
-              <path fill="currentColor" d="M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8C10.29,8 8.87,9.28 8.42,11H15.58C15.13,9.28 13.71,8 12,8M8.42,13C8.87,14.72 10.29,16 12,16C13.71,16 15.13,14.72 15.58,13H8.42Z"/>
+              <path
+                fill="currentColor"
+                d="M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8C10.29,8 8.87,9.28 8.42,11H15.58C15.13,9.28 13.71,8 12,8M8.42,13C8.87,14.72 10.29,16 12,16C13.71,16 15.13,14.72 15.58,13H8.42Z"
+              />
             </svg>
           </div>
         </div>
       </label>
-      
-      <label class="payment-card">
-        <input type="radio" name="paymentMethod" value="cod" ngModel required>
+
+      <label class="payment-card" [class.selected]="paymentMethod === 'cod'">
+        <input type="radio" name="paymentMethod" value="cod" [(ngModel)]="paymentMethod" required 
+               (change)="onPaymentMethodChange('cod')" />
         <div class="payment-content">
           <div class="payment-icon">
             <svg viewBox="0 0 24 24">
-              <path fill="currentColor" d="M19,14V18H17V14H19M19,7H17V13H19V7M15,14V18H13V14H15M15,7H13V12H15V7M11,14V18H9V14H11M11,7H9V12H11V7M7,14V18H5V14H7M7,7H5V12H7V7M20,3H4A2,2 0 0,0 2,5V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V5A2,2 0 0,0 20,3Z"/>
+              <path
+                fill="currentColor"
+                d="M19,14V18H17V14H19M19,7H17V13H19V7M15,14V18H13V14H15M15,7H13V12H15V7M11,14V18H9V14H11M11,7H9V12H11V7M7,14V18H5V14H7M7,7H5V12H7V7M20,3H4A2,2 0 0,0 2,5V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V5A2,2 0 0,0 20,3Z"
+              />
             </svg>
           </div>
           <span>Cash on Delivery</span>
         </div>
       </label>
     </div>
+    @if (pm.invalid && pm.touched) {
+      <div class="error">Please select a payment method.</div>
+    }
 
     <!-- Order Total -->
     <div class="order-total">
@@ -92,10 +134,13 @@
         <span>Total</span>
         <span>{{ total }} EGP</span>
       </div>
-      
-      <button type="submit" class="place-order-btn" >
+
+      <button type="submit" class="place-order-btn">
         <svg viewBox="0 0 24 24" class="lock-icon">
-          <path fill="currentColor" d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+          <path
+            fill="currentColor"
+            d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"
+          />
         </svg>
         Place Order Securely
       </button>

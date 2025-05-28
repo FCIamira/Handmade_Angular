@@ -1,0 +1,223 @@
+.order-success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--cream-white);
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out;
+  overflow: hidden;
+}
+
+.delivery-animation {
+  width: 300px;
+  height: 200px;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.road {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  height: 4px;
+  background-color: var(--warm-clay);
+}
+
+.truck {
+  position: absolute;
+  left: -100px;
+  bottom: 40px;
+  animation: driveIn 1.5s ease-out forwards,
+             deliverPackage 1s 1.5s ease-out forwards;
+}
+
+.truck-body {
+  position: relative;
+  width: 120px;
+  height: 60px;
+}
+
+.cab {
+  position: absolute;
+  left: 0;
+  width: 50px;
+  height: 40px;
+  background-color: var(--olive);
+  border-radius: 5px 5px 0 0;
+}
+
+.cargo {
+  position: absolute;
+  left: 45px;
+  width: 70px;
+  height: 35px;
+  background-color: var(--muted-olive);
+  border-radius: 0 5px 5px 0;
+}
+
+.wheels {
+  position: absolute;
+  bottom: -10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.wheel {
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  border-radius: 50%;
+  border: 3px solid var(--warm-clay);
+  animation: rotateWheel 1s linear infinite;
+}
+
+.smoke {
+  position: absolute;
+  top: -10px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 50%;
+  opacity: 0;
+  animation: puffSmoke 1s 0.5s ease-out forwards;
+}
+
+.package-delivered {
+  position: absolute;
+  right: 40px;
+  bottom: 80px;
+  opacity: 0;
+  animation: showPackage 0.5s 2.5s ease-out forwards;
+}
+
+.package {
+  width: 30px;
+  height: 20px;
+  background-color: var(--warm-clay);
+  transform: rotate(-15deg);
+  position: relative;
+}
+
+.package:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background-color: var(--olive);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.package:after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  background-color: var(--olive);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.success-title {
+  font-size: 28px;
+  color: var(--warm-clay);
+  margin-bottom: 12px;
+  animation: fadeInUp 0.5s 2.8s ease-out both;
+}
+
+.success-message {
+  font-size: 18px;
+  color: var(--olive);
+  margin-bottom: 24px;
+  animation: fadeInUp 0.5s 3s ease-out both;
+}
+
+button {
+  animation: fadeInUp 0.5s 3.2s ease-out both;
+}
+
+@keyframes driveIn {
+  0% {
+    transform: translateX(0);
+  }
+  70% {
+    transform: translateX(220px);
+  }
+  100% {
+    transform: translateX(180px);
+  }
+}
+
+@keyframes deliverPackage {
+  0% {
+    transform: translateX(180px);
+  }
+  30% {
+    transform: translateX(180px) translateY(-10px);
+  }
+  100% {
+    transform: translateX(180px) translateY(-10px);
+  }
+}
+
+@keyframes rotateWheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes puffSmoke {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5) translateY(-20px);
+  }
+}
+
+@keyframes showPackage {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

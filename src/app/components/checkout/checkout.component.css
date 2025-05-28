@@ -245,7 +245,106 @@
   width: 18px;
   height: 18px;
 }
+.error {
+  color: red;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+/*  */
+/* Payment Method Styles */
+.payment-options {
+  margin-bottom: 20px;
+}
 
+.payment-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid var(--warm-clay);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--cream-white);
+}
+
+.payment-card:hover {
+  border-color: var(--dark-brown);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.payment-card.selected {
+  background-color: var(--sage-green);
+  border-color: var(--cream-white);
+  box-shadow: 0 0 0 1px var(--sage-green);
+  color: var(--cream-white);
+  .payment-icon{
+    color: var(--cream-white);
+  }
+}
+
+.payment-card input[type="radio"] {
+  margin-right: 12px;
+  accent-color: var(--sage-green);
+}
+
+.payment-content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.payment-icon {
+  margin-right: 15px;
+  color: var(--sage-green);
+}
+
+
+.payment-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.card-brands {
+  display: flex;
+  margin-left: auto;
+}
+
+.card-brands svg {
+  width: 30px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.visa {
+  color: #1a1f71;
+}
+
+.mastercard {
+  color: #eb001b;
+}
+
+/* ... (keep your existing styles below) */
+
+/* Placeholder styling */
+::placeholder {
+  color: #999;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #999;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #999;
+}
+
+/* Make placeholders slightly lighter when field is focused */
+input:focus::placeholder,
+textarea:focus::placeholder {
+  color: #ccc;
+}
 /* Responsive */
 @media (max-width: 768px) {
   .checkout-container {

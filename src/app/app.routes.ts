@@ -69,6 +69,7 @@ import { SellerdashboardComponent } from './components/sellerdashboard/sellerdas
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AddproductComponent } from './components/addproduct/addproduct.component';
 import { ProductDetailsSellerComponent } from './components/product-detailsSeller/product-details.component';
+import { OrderSuccessComponent } from './components/order-success/order-success.component';
 
 export const routes: Routes = [
   {
@@ -89,6 +90,7 @@ export const routes: Routes = [
       { path: 'seller/:id', component: SellerProductsComponent },
       { path: 'product-details/:id', component: ProductDetailsComponent },
       { path: 'checkout', component: CheckoutComponent },
+      {path:'ordersuccess', component:OrderSuccessComponent}
 
     ]
   },
