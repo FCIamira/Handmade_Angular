@@ -4,6 +4,8 @@ import { Observable } from 'rxjs'
 import { environment } from '../../../environments/environment'
 import { ISeller } from '../interfaces/iseller'
 import { ResponceGetAll } from '../../models/ResponceGetAll.model';
+import { Responce } from '../../models/Responce.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +20,9 @@ export class GetsellersService {
 return this._HttpClient.get<ResponceGetAll<ISeller>>(`${environment.apiBaseUrl}/Seller`)
   }
 
-getSellerWithItsProducts(id:string):Observable<any>
+getSellerWithItsProducts(id:string):Observable<Responce<ISeller>>
 {
-  return this._HttpClient.get(`${environment.apiBaseUrl}/Seller/${id}`)
+  return this._HttpClient.get<Responce<ISeller>>(`${environment.apiBaseUrl}/Seller/${id}`)
 } 
 
 }

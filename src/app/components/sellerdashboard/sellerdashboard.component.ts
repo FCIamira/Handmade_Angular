@@ -27,8 +27,13 @@ export class SellerdashboardComponent {
       if (sellerId) {
         this.sellerService.getSellerWithItsProducts(sellerId).subscribe({
           next: (res) => {
-            this.productsList = res.data.products;
-            console.log("Seller with products:", res);
+console.log("Seller with products:", res);
+           this.productsList=res.data.products;
+
+//this.productsList = res.data.flatMap(seller => seller.products );
+
+           this.productsList = res.data.products;
+            console.log("Seller with products:", this.productsList);
           },
           error: (error) => {
             console.log("Error fetching seller:", error);

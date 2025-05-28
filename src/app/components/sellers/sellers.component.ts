@@ -33,7 +33,7 @@ ngOnInit(): void {
 showSellerProducts(sellerid:string)
 {
   this._SellerService.getSellerWithItsProducts(sellerid).subscribe(res => {
-      this.selectedSellerProducts = res.products;
+      this.selectedSellerProducts = res.data;
       console.log(this.selectedSellerProducts);
     })
 }

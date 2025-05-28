@@ -24,6 +24,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { IRating } from '../../core/interfaces/irating'; // Import the interface
 import { ResponceGetAll } from '../../models/ResponceGetAll.model';
+import { Responce } from '../../models/Responce.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +39,9 @@ export class GetReviewsForEachProductService {
   }
 
 
-  addReview(productId: number, rating: IRating): Observable<any> {
+  addReview(productId: number, rating: IRating): Observable<Responce<IRating>> {
     ///Rating/8/rate
-    return this._HttpClient.post(`${this.baseUrl}/Rating/${productId}/rate`, rating);
+    return this._HttpClient.post<Responce<IRating>>(`${this.baseUrl}/Rating/${productId}/rate`, rating);
   }
 
 
